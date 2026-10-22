@@ -375,7 +375,7 @@ const stack = await scanStack(TOKEN, gql, data.login, pf.skills);
 const shared = { W, FONT, CH, esc, frame, hbar, updated: data.updated };
 await mkdir("assets", { recursive: true });
 for (const [mode, t] of Object.entries(THEMES)) {
-  await writeFile(`assets/hero-${mode}.svg`, heroSvg(pf, t, mode, shared));
+  await writeFile(`assets/profile-hero-${mode}.svg`, heroSvg(pf, t, mode, shared));
   await writeFile(`assets/stack-${mode}.svg`, await stackSvg(stack, t, mode, shared));
   await writeFile(`assets/overview-${mode}.svg`, overviewSvg(data, t));
   await writeFile(`assets/languages-${mode}.svg`, languagesSvg(data, t));
