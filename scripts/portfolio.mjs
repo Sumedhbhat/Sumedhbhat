@@ -32,7 +32,7 @@ const SYNTAX = {
 function heroLines(pf) {
   const str = (s) => ["str", JSON.stringify(s)];
   const prop = (key, value, comment) => [["", "  "], ["key", key], ["pun", ": "], ...value, ["pun", ","], ...(comment ? [["cm", `  // ${comment}`]] : [])];
-  const building = pf.projects.find((x) => x.status === "In development");
+  const building = pf.projects.find((x) => x.kind === "Professional" && x.status === "Current");
   const shipping = pf.projects.find((x) => x.kind === "Public" && x.status === "Current");
   // "Full Stack and Applied AI" -> ["full stack", "applied AI"]; acronyms keep their case.
   const focus = pf.profile.focus.split(/\s+and\s+/i).map((f) => f.split(" ").map((w) => (w === w.toUpperCase() ? w : w.toLowerCase())).join(" "));
