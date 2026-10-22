@@ -24,7 +24,6 @@ const TECH = [
   { id: "html", row: "languages", lang: "HTML" },
   { id: "css", row: "languages", lang: "CSS" },
   { id: "sass", row: "languages", lang: "SCSS", dep: ["sass"] },
-  { id: "latex", row: "languages", lang: "TeX" },
 
   { id: "react", row: "frontend", dep: ["react", "react-native"], skill: "React" },
   { id: "angular", row: "frontend", dep: ["@angular/core"], file: /(^|\/)angular\.json$/, skill: "Angular" },
@@ -37,8 +36,6 @@ const TECH = [
   { id: "tailwind", row: "frontend", dep: ["tailwindcss"] },
   { id: "materialui", row: "frontend", dep: ["@mui/material", "@material-ui/core"] },
   { id: "bootstrap", row: "frontend", dep: ["bootstrap", "react-bootstrap"] },
-  { id: "threejs", row: "frontend", dep: ["three"] },
-  { id: "d3", row: "frontend", dep: ["d3"] },
   { id: "vite", row: "frontend", dep: ["vite"] },
 
   { id: "nodejs", row: "backend", file: /(^|\/)package\.json$/ },
