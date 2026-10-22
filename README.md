@@ -87,9 +87,9 @@ I couldn't go back to VS Code after a taste of Vim, so these cards wear my Neovi
 
 | Last 12 months | |
 |---|---|
-| Contributions | 279 |
+| Contributions | 280 |
 | Commits | 146 |
-| Pull requests / reviews | 105 / 7 |
+| Pull requests / reviews | 106 / 7 |
 | Repositories contributed to | 12 |
 | Org / team repos | 2 (SSB-Coder, christianacca) |
 | Private contributions | 14 |
@@ -107,13 +107,13 @@ I couldn't go back to VS Code after a taste of Vim, so these cards wear my Neovi
 
 | Language, last 90 days | Share |
 |---|---|
-| TypeScript | 46% |
-| Rust | 31% |
-| CSS | 7.7% |
-| Python | 6.7% |
-| JavaScript | 1.8% |
+| TypeScript | 45% |
+| Rust | 30% |
+| CSS | 7.6% |
+| Python | 6.6% |
+| JavaScript | 3.0% |
 | TeX | 1.6% |
-| Other | 5.9% |
+| Other | 5.8% |
 
 | Agent | Commits | Share |
 |---|---|---|
