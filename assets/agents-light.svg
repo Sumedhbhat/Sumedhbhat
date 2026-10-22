@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="250" viewBox="0 0 840 250" role="img" aria-label="Coding agents">
+<style>text{font-family:'JetBrains Mono', 'Cascadia Code', 'SF Mono', ui-monospace, Menlo, Consolas, monospace;font-size:14px;fill:#3760bf}.h{font-size:20px}.n{font-weight:700}.s{fill:#6172b0}.m{font-size:12px;fill:#6172b0}.c{font-size:12px;font-weight:700;fill:#e1e2e7}</style>
+<defs><clipPath id="w"><rect width="840" height="250" rx="10"/></clipPath></defs>
+<g clip-path="url(#w)">
+<rect width="840" height="250" fill="#e1e2e7"/>
+<rect y="220" width="840" height="30" fill="#d0d5e3"/>
+<path d="M0 220h85.6l12 15l-12 15h-85.6z" fill="#2e7de9"/>
+<text x="28" y="239.5" class="c">:agents</text>
+<text x="113.6" y="239.5" class="m">github.com/Sumedhbhat</text>
+<text x="812" y="239.5" class="m" text-anchor="end">updated 22 Oct 2026</text>
+</g>
+<rect x="0.5" y="0.5" width="839" height="249" rx="10" fill="none" stroke="#c4c8da"/>
+<text x="28" y="48" class="h">Claude Code co-wrote <tspan class="n">39</tspan> of my <tspan class="n">139</tspan> commits this year</text><text x="28" y="78" class="s">29% of my commits carry an agent co-author trailer.</text><path d="M32 102h739.8536585365854v16h-739.8536585365854a4 4 0 0 1 -4 -4v-8a4 4 0 0 1 4 -4z" fill="#2e7de9"/><path d="M773.8536585365854 102h34.146341463414636a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-34.146341463414636v-16z" fill="#b15c00"/><rect x="28" y="140" width="10" height="10" rx="2" fill="#2e7de9"/><text x="48" y="150" class="s">Co-Authored-By:</text><text x="182.4" y="150">Claude Code</text><text x="333.6" y="150" text-anchor="end" class="n">39</text><text x="397.6" y="150" text-anchor="end" class="s">95%</text><rect x="28" y="164" width="10" height="10" rx="2" fill="#b15c00"/><text x="48" y="174" class="s">Co-Authored-By:</text><text x="182.4" y="174">GitHub Copilot</text><text x="333.6" y="174" text-anchor="end" class="n">2</text><text x="397.6" y="174" text-anchor="end" class="s">4.9%</text>
+</svg>
