@@ -6,6 +6,7 @@
 // and org contributions are invisible.
 
 import { writeFile, readFile, mkdir } from "node:fs/promises";
+import { loadPortfolio, heroSvg, timelineSvg, portfolioIntro, portfolioBody } from "./portfolio.mjs";
 
 const TOKEN = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
 if (!TOKEN) throw new Error("Set GH_TOKEN (a PAT with repo + read:org)");
@@ -368,16 +369,26 @@ function table(d) {
   return lines.join("\n");
 }
 
-const data = await collect();
+const [data, pf] = await Promise.all([collect(), loadPortfolio(TOKEN)]);
+const shared = { W, FONT, CH, esc, frame, hbar, updated: data.updated };
 await mkdir("assets", { recursive: true });
 for (const [mode, t] of Object.entries(THEMES)) {
+  await writeFile(`assets/hero-${mode}.svg`, heroSvg(pf, t, mode, shared));
+  await writeFile(`assets/career-${mode}.svg`, timelineSvg(pf, t, shared));
   await writeFile(`assets/overview-${mode}.svg`, overviewSvg(data, t));
   await writeFile(`assets/languages-${mode}.svg`, languagesSvg(data, t));
   await writeFile(`assets/agents-${mode}.svg`, agentsSvg(data, t));
 }
-const readme = await readFile("README.md", "utf8");
-await writeFile(
-  "README.md",
-  readme.replace(/<!-- STATS:START -->[\s\S]*<!-- STATS:END -->/, `<!-- STATS:START -->\n${table(data)}\n<!-- STATS:END -->`),
-);
+
+// Fill each <!-- NAME:START --> ... <!-- NAME:END --> block; the rest of the README is hand-written.
+const fill = (md, name, content) => {
+  const re = new RegExp(`<!-- ${name}:START -->[\\s\\S]*?<!-- ${name}:END -->`);
+  if (!re.test(md)) throw new Error(`README is missing the ${name} markers`);
+  return md.replace(re, () => `<!-- ${name}:START -->\n${content}\n<!-- ${name}:END -->`);
+};
+let readme = await readFile("README.md", "utf8");
+readme = fill(readme, "INTRO", portfolioIntro(pf));
+readme = fill(readme, "PORTFOLIO", portfolioBody(pf));
+readme = fill(readme, "STATS", table(data));
+await writeFile("README.md", readme);
 console.log(JSON.stringify({ ...data, weeks: data.weeks.length }, null, 2));
