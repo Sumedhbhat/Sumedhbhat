@@ -29,10 +29,61 @@ src="https://img.shields.io/twitter/follow/theavidcoder?logo=twitter&style=for-t
 
 <p align="left"> <a href="https://www.github.com/SumedhBhat" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" /> </picture> </a> <a href="https://www.linkedin.com/in/sumedh-s-bhat" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" /> </picture> </a> <a href="https://www.x.com/theavidcoder" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/twitter-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/twitter.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/twitter.svg" width="32" height="32" /> </picture> </a></p>
 
-### Badges
+### Stats
 
-<b>My GitHub Stats</b>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/overview-dark.svg" />
+  <img src="assets/overview-light.svg" width="100%" alt="Contribution activity across personal and organization repos" />
+</picture>
 
-<a href="http://www.github.com/SumedhBhat"><img src="https://github-readme-stats.vercel.app/api?username=SumedhBhat&show_icons=true&hide=&count_private=true&title_color=0891b2&text_color=ffffff&icon_color=0891b2&bg_color=1c1917&hide_border=true&show_icons=true" alt="SumedhBhat's GitHub stats" /></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/languages-dark.svg" />
+  <img src="assets/languages-light.svg" width="100%" alt="Most used and latest languages" />
+</picture>
 
-<a href="https://github.com/SumedhBhat" align="left"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=SumedhBhat&langs_count=10&title_color=0891b2&text_color=ffffff&icon_color=0891b2&bg_color=1c1917&hide_border=true&locale=en&custom_title=Top%20%Languages" alt="Top Languages" /></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/agents-dark.svg" />
+  <img src="assets/agents-light.svg" width="100%" alt="Coding agents I use most" />
+</picture>
+
+<!-- STATS:START -->
+<details>
+<summary>Data behind these cards (updated 2026-10-22)</summary>
+
+| Last 12 months | |
+|---|---|
+| Contributions | 276 |
+| Commits | 145 |
+| Pull requests / reviews | 103 / 7 |
+| Repositories contributed to | 10 |
+| Org / team repos | 2 (SSB-Coder, christianacca) |
+| Private contributions | 14 |
+| Current / longest streak | 10d / 10d |
+
+| Language, all time | Share |
+|---|---|
+| TypeScript | 24% |
+| Python | 20% |
+| C++ | 19% |
+| JavaScript | 16% |
+| Lua | 7.7% |
+| Rust | 6.1% |
+| Other | 7.5% |
+
+| Language, last 90 days | Share |
+|---|---|
+| TypeScript | 46% |
+| Rust | 32% |
+| CSS | 7.9% |
+| Python | 6.8% |
+| TeX | 1.6% |
+| Shell | 1.6% |
+| Other | 4.9% |
+
+| Agent | Commits | Share |
+|---|---|---|
+| Claude Code | 39 | 95% |
+| GitHub Copilot | 2 | 4.9% |
+
+</details>
+<!-- STATS:END -->
