@@ -6,7 +6,8 @@
 // and org contributions are invisible.
 
 import { writeFile, readFile, mkdir } from "node:fs/promises";
-import { loadPortfolio, heroSvg, timelineSvg, portfolioIntro, portfolioBody } from "./portfolio.mjs";
+import { loadPortfolio, heroSvg, portfolioIntro, portfolioBody } from "./portfolio.mjs";
+import { scanStack, stackSvg } from "./stack.mjs";
 
 const TOKEN = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
 if (!TOKEN) throw new Error("Set GH_TOKEN (a PAT with repo + read:org)");
@@ -370,11 +371,12 @@ function table(d) {
 }
 
 const [data, pf] = await Promise.all([collect(), loadPortfolio(TOKEN)]);
+const stack = await scanStack(TOKEN, gql, data.login, pf.skills);
 const shared = { W, FONT, CH, esc, frame, hbar, updated: data.updated };
 await mkdir("assets", { recursive: true });
 for (const [mode, t] of Object.entries(THEMES)) {
   await writeFile(`assets/hero-${mode}.svg`, heroSvg(pf, t, mode, shared));
-  await writeFile(`assets/career-${mode}.svg`, timelineSvg(pf, t, shared));
+  await writeFile(`assets/stack-${mode}.svg`, await stackSvg(stack, t, mode, shared));
   await writeFile(`assets/overview-${mode}.svg`, overviewSvg(data, t));
   await writeFile(`assets/languages-${mode}.svg`, languagesSvg(data, t));
   await writeFile(`assets/agents-${mode}.svg`, agentsSvg(data, t));
@@ -388,7 +390,7 @@ const fill = (md, name, content) => {
 };
 let readme = await readFile("README.md", "utf8");
 readme = fill(readme, "INTRO", portfolioIntro(pf));
-readme = fill(readme, "PORTFOLIO", portfolioBody(pf));
+readme = fill(readme, "PROJECTS", portfolioBody(pf, stack.open));
 readme = fill(readme, "STATS", table(data));
 await writeFile("README.md", readme);
-console.log(JSON.stringify({ ...data, weeks: data.weeks.length }, null, 2));
+console.log(JSON.stringify({ ...data, weeks: data.weeks.length, stack: stack.rows }, null, 2));

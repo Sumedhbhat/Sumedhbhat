@@ -1,9 +1,9 @@
 // Portfolio projection for the profile README. The portfolio repo owns the
-// career facts (data/portfolio/*.json); this file only renders them.
+// profile facts (data/portfolio/*.json); this file only renders them.
 
 const REPO = "Sumedhbhat/portfolio";
 const BRANCH = "master";
-const COLLECTIONS = ["profile", "positions", "companies", "projects", "skills", "recognition", "education", "professional-work"];
+const COLLECTIONS = ["profile", "positions", "companies", "projects", "skills"];
 
 export async function loadPortfolio(token) {
   const entries = await Promise.all(
@@ -18,7 +18,7 @@ export async function loadPortfolio(token) {
   const p = Object.fromEntries(entries);
   const company = (id) => p.companies.find((c) => c.id === id);
   const current = p.positions.find((pos) => !pos.endDate) ?? p.positions[0];
-  return { ...p, work: p["professional-work"], company, current, currentCompany: company(current.companyId) };
+  return { ...p, company, current, currentCompany: company(current.companyId) };
 }
 
 // ---------------------------------------------------------------- hero
@@ -107,123 +107,39 @@ ${body}
 </svg>`;
 }
 
-// ---------------------------------------------------------------- timeline
-
-const yearFrac = (iso) => {
-  const d = new Date(iso + "T00:00:00Z");
-  return d.getUTCFullYear() + d.getUTCMonth() / 12 + (d.getUTCDate() - 1) / 365;
-};
-
-// Career path: study and roles as bars, recognition as dots. It is a real
-// sequence, so it reads left to right on one time axis.
-export function timelineSvg(pf, t, { W, CH, frame, hbar, esc, updated }) {
-  const now = yearFrac(updated);
-  const initials = (name) => name.split(" ").filter((w) => /^[A-Z]/.test(w)).map((w) => w[0]).join("");
-  const edu = pf.education.map((e) => ({ label: `${e.shortDegree.split(",")[0]} at ${initials(e.institution)}`, from: e.startYear + 7 / 12, to: e.endYear + 5 / 12 }));
-  const roles = [...pf.positions].sort((a, b) => a.startDate.localeCompare(b.startDate)).map((p) => ({
-    label: p.title.replace("Software Engineer", "SWE").replace("Product Developer Intern", "Intern"),
-    sub: pf.company(p.companyId).name,
-    from: yearFrac(p.startDate),
-    to: p.endDate ? yearFrac(p.endDate) : now,
-    current: !p.endDate,
-  }));
-  const marks = pf.recognition
-    .filter((r) => /^\d{4}$/.test(r.year))
-    .map((r) => {
-      const q = /Q([1-4])\s+(\d{4})/.exec(r.note ?? "");
-      return { label: r.title.replace(/\s+—\s+/, ", "), at: q ? Number(q[2]) + (Number(q[1]) - 1) / 4 + 0.125 : Number(r.year) + 0.5 };
-    })
-    .sort((a, b) => a.at - b.at);
-
-  const minYear = Math.floor(Math.min(...edu.map((e) => e.from), ...roles.map((r) => r.from)));
-  const left = 28, right = W - 28, x = (yr) => left + ((yr - minYear) / (now - minYear)) * (right - left);
-
-  // Greedy rows: an item takes the first row where its span [start, end]
-  // clears the previous item in that row by a gap.
-  const placer = (rowYs) => {
-    const ends = rowYs.map(() => -Infinity);
-    return (start, end) => {
-      const row = Math.max(0, ends.findIndex((e) => start > e + 16));
-      ends[row] = end;
-      return rowYs[row];
-    };
-  };
-  // A label starting at x0, flipped to end at x0 when it would run off the card.
-  const fit = (x0, chars, px, pad = 0) => {
-    const w = chars * px * CH;
-    return x0 + pad + w > right ? { x: x0 - pad, anchor: "end", start: x0 - pad - w, end: x0 } : { x: x0 + pad, anchor: "start", start: x0, end: x0 + pad + w };
-  };
-
-  const studyY = 92, workY = 132, markY = 212, axisY = 270;
-  let body = `<text x="28" y="48" class="h">From ${esc(edu.length ? `${initials(pf.education[0].institution)} in ${minYear}` : minYear)} to <tspan class="n">${esc(roles.at(-1).label)}</tspan> at ${esc(roles.at(-1).sub)}</text>`;
-  for (let yr = minYear; yr <= Math.floor(now); yr++) {
-    body += `<line x1="${x(yr)}" y1="72" x2="${x(yr)}" y2="${axisY - 16}" stroke="${t.grid}"/><text x="${x(yr) + 4}" y="${axisY}" class="m">${yr}</text>`;
-  }
-  edu.forEach((e) => {
-    body += hbar(x(e.from), studyY, x(e.to) - x(e.from), 14, t.series[0]);
-    body += `<text x="${x(e.from)}" y="${studyY - 8}" class="m">${esc(e.label)}</text>`;
-  });
-
-  const roleLabel = placer([workY + 34, workY + 54]);
-  roles.forEach((r) => {
-    body += hbar(x(r.from) + 1, workY, Math.max(4, x(r.to) - x(r.from) - 2), 14, r.current ? t.seqA : t.deemph);
-    const text = `${r.label} ${r.sub}`;
-    const f = fit(x(r.from) + 1, text.length, 13);
-    const y = roleLabel(f.start, f.end);
-    const endX = f.anchor === "end" ? right : f.x;
-    body += `<line x1="${x(r.from) + 1}" y1="${workY + 16}" x2="${x(r.from) + 1}" y2="${y - 12}" stroke="${t.base}"/>`;
-    body += `<text x="${endX}" y="${y}" text-anchor="${f.anchor}" class="${r.current ? "n" : "s"}" style="font-size:13px">${esc(r.label)} <tspan class="m" style="font-weight:400">${esc(r.sub)}</tspan></text>`;
-  });
-
-  // Recognition: a ringed dot with its label beside it; dot and label share a row.
-  const markRow = placer([markY, markY + 22]);
-  marks.forEach((m) => {
-    const cx = x(m.at), f = fit(cx, m.label.length, 12, 12);
-    const y = markRow(Math.min(f.start, cx - 6), Math.max(f.end, cx + 6));
-    body += `<circle cx="${cx}" cy="${y - 4}" r="5" fill="${t.seqB}" stroke="${t.surface}" stroke-width="2"/>`;
-    body += `<text x="${f.x}" y="${y}" text-anchor="${f.anchor}" class="m">${esc(m.label)}</text>`;
-  });
-  return frame(t, axisY + 46, "career", "Career timeline", updated, body);
-}
-
 // ---------------------------------------------------------------- markdown
 
-const mdEsc = (s) => String(s).replace(/\|/g, "\\|");
-
+// One line about me; the cards and the project list carry the rest.
 export function portfolioIntro(pf) {
-  return [
-    pf.profile.summary,
-    "",
-    `Right now I'm a **${pf.current.title}** at **${pf.currentCompany.name}** in ${pf.profile.location}. I ${pf.current.description.charAt(0).toLowerCase()}${pf.current.description.slice(1)}`,
-  ].join("\n");
+  const focus = pf.profile.focus.split(" ").map((w) => (w === w.toUpperCase() ? w : w.toLowerCase())).join(" ");
+  return `I build ${focus} software from ${pf.profile.location}. Here's what I've built in the open.`;
 }
 
-export function portfolioBody(pf) {
+// A short tagline: the first sentence, cut at its first clause when it runs long.
+function tagline(s) {
+  let t = s.split(/(?<=\.)\s/)[0].replace(/\.$/, "");
+  if (t.length > 60) t = t.split(/,\s| with | that | running /)[0];
+  return t.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Open source projects: every public repo I own, newest push first. Portfolio
+// entries supply a better title and description; otherwise the repo's own
+// description is used, and repos without one are left out.
+export function portfolioBody(pf, open) {
+  const curated = new Map();
+  for (const p of pf.projects) {
+    const repo = p.links.find((l) => /^https:\/\/github\.com\//i.test(l.url));
+    if (repo) curated.set(repo.url.toLowerCase(), p);
+  }
   const out = [];
-  const live = pf.projects.filter((p) => ["In development", "Current"].includes(p.status));
-  out.push("### What I'm building", "");
-  for (const p of live) {
-    const link = p.links[0] ? ` ([${p.links[0].label.toLowerCase()}](${p.links[0].url}))` : "";
-    const where = p.kind === "Professional" ? ` at ${p.year}` : link;
-    out.push(`- **${p.title}**${where}: ${p.description.split(/(?<=\.)\s/)[0]} \`${p.tags.join("` `")}\``);
+  for (const r of open) {
+    const p = curated.get(r.url.toLowerCase());
+    const desc = p?.description ?? r.description;
+    if (!desc) continue;
+    const text = tagline(desc);
+    const extra = (p?.links ?? []).filter((l) => !/github\.com/i.test(l.url)).map((l) => ` · [${l.label.toLowerCase()}](${l.url})`).join("");
+    const stars = r.stargazerCount ? ` · ★ ${r.stargazerCount}` : "";
+    out.push(`- **[${p?.title ?? r.name}](${r.url})**: ${text}${extra}${stars}`);
   }
-
-  out.push("", "### Shipped at work", "", "| What | Impact |", "|---|---|");
-  for (const w of pf.work.filter((w) => w.status === "Delivered" && w.companyId === pf.current.companyId)) {
-    out.push(`| **${mdEsc(w.title)}**<br><sub>${w.tags.map(mdEsc).join(", ")}</sub> | ${mdEsc(w.impact)} |`);
-  }
-
-  const archive = pf.projects.filter((p) => !live.includes(p) && p.links.length);
-  out.push("", "### Earlier projects", "");
-  for (const p of archive) {
-    const links = p.links.map((l) => `[${l.label.toLowerCase()}](${l.url})`).join(", ");
-    out.push(`- **${p.title}** (${p.year}, ${links}): ${p.description.split(/(?<=\.)\s/)[0]}`);
-  }
-
-  out.push("", "### Recognition", "");
-  for (const r of pf.recognition) out.push(`- **${r.title.replace(/\s+—\s+/, ", ")}**: ${r.note}`);
-
-  out.push("", "### Toolbox", "", "| | |", "|---|---|");
-  for (const g of pf.skills) out.push(`| **${mdEsc(g.group)}** | ${g.items.map(mdEsc).join(", ")} |`);
   return out.join("\n");
 }
