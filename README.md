@@ -44,14 +44,14 @@ I build full stack and applied AI software from Bengaluru, India. Here's what I'
   <img src="assets/overview-light.svg" width="100%" alt="Contribution activity across personal and organization repos" />
 </picture>
 
-<br/>
+<br/><br/>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/languages-dark.svg" />
   <img src="assets/languages-light.svg" width="100%" alt="Most used and latest languages" />
 </picture>
 
-<br/>
+<br/><br/>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/agents-dark.svg" />

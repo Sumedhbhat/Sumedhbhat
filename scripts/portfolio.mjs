@@ -44,7 +44,7 @@ function heroLines(pf) {
     ...(building ? [prop("building", [str(building.title)], building.status.toLowerCase())] : []),
     ...(shipping ? [prop("shipping", [str(shipping.title)], "on the side")] : []),
     prop("based", [str(pf.profile.location)]),
-    prop("editor", [str("neovim")], "no going back to VS Code"),
+    prop("editors", [["pun", "["], str("T3 Code"), ["pun", ", "], str("Zed"), ["pun", ", "], str("Neovim"), ["pun", "]"]]),
     [["pun", "};"]],
   ];
 }
