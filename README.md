@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg" />
-  <img src="assets/hero-light.svg" width="100%" alt="Sumedh S Bhat, software engineer working on full stack and applied AI from Bengaluru" />
+  <source media="(prefers-color-scheme: dark)" srcset="assets/profile-hero-dark.svg" />
+  <img src="assets/profile-hero-light.svg" width="100%" alt="Sumedh S Bhat, software engineer working on Agora Insights, full stack and applied AI from Bengaluru" />
 </picture>
 
 # Hi, I'm Sumedh 👋
